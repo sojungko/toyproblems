@@ -1,21 +1,16 @@
 const longestRun = (str) => {
-  let start = 0, end = 0, max = 0, result = [];
-  const recurse = i => {
-    if (i === str.length) {
-      return;
-    }
+  let start = 0, end = 0, max = -1, result = [];
+  for (let i = 0; i < str.length; i++) {
     if (str[i] === str[i + 1]) {
       end++;
-      recurse(i++);
-    }
-    if (str[i] !== str[i + 1]) {
+    } else if (str[i] !== str[i + 1] || str[i + 1] === undefined) {
       if (end - start > max) {
         result = [start, end];
+        max = end - start;
       }
-      start++;
-      recurse(i++);
+      start = i + 1;
+      end++;
     }
   }
-  recurse(0);
-  return result;
+  return str.length === 0 ? [0, 0] : result
 }
