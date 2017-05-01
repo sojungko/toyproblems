@@ -1,24 +1,31 @@
 const binarySearch = (array, target) => {
-  let copy = array.slice();
-  let midPoint = Math.floor(array.length / 2);
-  let answer = -1;
-  const recurse = (arr) => {
-    let middle = arr[midPoint];
-    console.log(midPoint, middle);
-    if (midPoint === 0) {
+  let min = 0, max = array.length - 1, result;
+
+  const recurse = (min, max) => {
+    let mid = Math.floor((max - min) / 2);
+    let middle = array[mid];
+    if (array[min] === target) {
+      result = min;
+      return;
+    }
+    if (array[max] === target) {
+      result = max;
       return;
     }
     if (middle === target) {
-      answer = midPoint;
+      result = mid;
+      return;
+    }
+    if (mid === 0 || mid > array.length - 1) {
+      result = -1;
       return;
     }
     if (middle > target) {
-      recurse(arr.slice(0, midPoint));
-    }
-    if (middle < target) {
-      recurse(arr.slice(midPoint + 1));
+      recurse(0, mid - 1);
+    } else if (middle < target) {
+      recurse(mid + 1, array.length - 1);
     }
   }
-  recurse(copy);
-  return answer;
+  recurse(min, max);
+  return result;
 }
