@@ -15,19 +15,17 @@
 // }
 
 const powerSet = (str) => {
-  let strArr = str.split('');
+  let strArr = [...str];
   let result = { "": true };
   
-  const outerRecurse = () => {
-    for (let i = 0; i < strArr.length; i++) {
-      let spliced = strArr.splice(i, 1);
-      recurse(spliced, strArr[i]);
-    }
-
-  }
-
-  const innerRecurse = (arr, string) => {
+  const recurse = (string, index) => {
     result[string] = true;
-    
+    recurse(string + str[index], index);
   }
+
+  for (let i = 0; i < strArr.length; i++) {
+    recurse("", i);
+  }
+
+
 }
