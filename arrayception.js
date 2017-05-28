@@ -1,24 +1,16 @@
-const isArray = arg => Array.isArray(arg);
-const isNestedEmptyArrays = arg => Array.isArray(arg) && arg.join("") === "";
-
 const arrayception = array => {
-  let depth = 0;
-  let max = 0;
-  const recurse = element => {
-    if (isNestedEmptyArrays(element) || !isArray(element)) {
-      return;
-    }
-    if (isArray(element)) {
+  let deepest = 0;
+  (function recurse(arr, depth) {
+    if (isNestedEmptyArray(arr) || !isArray(arr)) return;
+    arr.forEach(el => {
       depth++;
-      for (let i = 0; i < element.length; i++) {
-        recurse(element[i]);
-      }
-      if (depth > max) {
-        max = depth;
-      }
+      deepest = Math.max(deepest, depth);
+      recurse(el, depth);
       depth--;
-    }
-  }
-  recurse(array);
-  return max;
+    })
+  })(array, 0);
+  return deepest;
 }
+
+const isArray = (arg) => Array.isArray(arg);
+const isNestedEmptyArray = (arg) => arg.toString().split(',').join('') === '';
